@@ -8,17 +8,18 @@ class Navigator:
         self.pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
         rospy.init_node('Navigator', anonymous=True)
         
-    def go_around(self, distance, circle_r, direction):
+    def go_around(self, distance, circle_r, direction, degrees=3.1415, speed = 1):
         '''
         This func would navigate the boltom directly to the target and go around the target, after the direction is set towards the target
         :param distance: distance from boltom's head to the target
         :param circle_r: radius of the circle when going around
         :param direction: 1 means anti-clockwise (from right), -1 means clockwise (from left)
+	:param degrees: degrees to spin in the circle
+	:speed: speed we want to set, should be 1~10
         '''
         
         msg = Twist()
         frequency = 10 # 10hz
-        speed = 1
         rate = rospy.Rate(frequency) 
 
         # Go straight towards target
@@ -38,7 +39,7 @@ class Navigator:
         # Go around the target
         msg.linear = Vector3(speed*circle_r, 0, 0)
         msg.angular = Vector3(0, 0, direction*speed)
-        for i in xrange(int(pi*frequency/speed)):
+        for i in xrange(int(degrees*frequency/speed)):
             self.pub.publish(msg)
             rate.sleep()
 
@@ -48,4 +49,4 @@ class Navigator:
         self.pub.publish(msg)
 
 if __name__ == '__main__':
-    Navigator().go_around(5, 1, -1)
+    Navigator().go_around(5, 1, -1, degrees=6.0, speed=5)
