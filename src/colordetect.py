@@ -27,6 +27,12 @@ class ColorDetector:
 
     def __init__(self, hue=(0, 179), saturation=(0, 255), value=(0, 255)):
         '''Initialize a color detector for hsv images with certain hue, saturation, value ranges.'''
+        if not ((0 <= hue[0] <= 179) and (0 <= hue[1] <= 179)):
+            raise ValueError('Valid hsv range for hue is [0, 179]')
+        if not ((0 <= saturation[0] <= 255) and (0 <= saturation[1] <= 255) and
+                (0 <= value[0] <= 255) and (0 <= value[1] <= 255)):
+            raise ValueError('Valid hsv range for saturation and value is [0, 255]')
+
         self.hsv_values = np.array([hue, saturation, value], dtype=np.uint8)
 
     def threshold(self, frame):
