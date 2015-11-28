@@ -1,0 +1,6 @@
+uint8 which
+int32[2] hue
+int32[2] saturation
+int32[2] value
+---
+string error

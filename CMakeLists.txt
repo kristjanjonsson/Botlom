@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  cv_bridge
 )
 
 ## System dependencies are found with CMake's conventions
@@ -52,10 +53,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   KeyboardService.srv
-# )
+add_service_files(
+  FILES
+  ChangeColor.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -175,6 +176,7 @@ include_directories(include
 catkin_install_python(
    PROGRAMS
    src/navigation.py
+   src/eyes.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
