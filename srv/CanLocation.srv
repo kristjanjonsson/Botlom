@@ -1,0 +1,11 @@
+# Location of a bounding box for a can.
+# (x, y) is the top left corner.
+# w and h are the width and hight respectively.
+# (x + w, y + h) is the bottom right corner.
+uint8 which
+---
+int32 x
+int32 y
+int32 w
+int32 h
+string error

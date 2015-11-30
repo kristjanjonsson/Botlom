@@ -1,0 +1,6 @@
+int32 flag_num
+---
+float32 distance
+float32 angle
+string color
+string error
