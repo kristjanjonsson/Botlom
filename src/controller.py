@@ -1,32 +1,58 @@
 #!/usr/bin/env python
 
-import os
-
-from Tkinter import *
 import rospy
 from Botlom.srv import CommandService
+import time
 
-# turn off autorepeat behavior
-os.system('xset r off')
-
-VALID_KEY_PRESSES = ['UP', 'DOWN', 'LEFT', 'RIGHT', 'S']
-
-class Controller(Tk):
+class Controller:
     def __init__(self, node_name):
         rospy.init_node(node_name)
-        rospy.wait_for_service('command_keyboard')
-        self.command_handle = rospy.ServiceProxy('command_keyboard', CommandService)
+        rospy.wait_for_service('command_receiver')
+        self.command_handle = rospy.ServiceProxy('command_receiver', CommandService)
 
+    def move_forward(self, press_time = 0.25):
+        self.command_handle("UP", "2")
+        time.sleep(press_time)
+        response = self.command_handle("UP", "3")
 
-        Tk.__init__(self)
-        self.title("Keyboard Control Receiver")
-        self.option_add('*tearOff', FALSE)
-        self.bind("<Key>", self.callbackKey)
-        self.bind("<KeyRelease>", self.callbackKey)
+        if response.error:
+            print response.error
+
+    def move_backwards(self, press_time = 0.25):
+        self.command_handle("DOWN", "2")
+        time.sleep(press_time)
+        response = self.command_handle("DOWN", "3")
+
+        if response.error:
+            print response.error
+
+    def turn_left(self, press_time = 0.25):
+        self.command_handle("LEFT", "2")
+        time.sleep(press_time)
+        response = self.command_handle("LEFT", "3")
+
+        if response.error:
+            print response.error
+
+    def turn_right(self, press_time = 0.25):
+        self.command_handle("RIGHT", "2")
+        time.sleep(press_time)
+        response = self.command_handle("RIGHT", "3")
+
+        if response.error:
+            print response.error
+
+    def play_song(self, press_time = 0.25):
+        self.command_handle("S", "2")
+        time.sleep(press_time)
+        response = self.command_handle("S", "3")
+
+        if response.error:
+            print response.error
+
 
     # A handler for keyboard events. Feel free to add more!
     def callbackKey(self, event):
-        k = event.keysym.upper()
         response = self.command_handle(k, event.type)
         if response.error:
             print response.error
@@ -34,4 +60,3 @@ class Controller(Tk):
 
 if __name__ == "__main__":
     app = Controller('create_controller')
-    app.mainloop()

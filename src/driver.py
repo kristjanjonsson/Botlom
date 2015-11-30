@@ -28,7 +28,7 @@ class Driver:
 
         # start node and spin.
         rospy.init_node(node_name)
-        rospy.Service('command_keyboard', CommandService, self.command_callback)
+        rospy.Service('command_receiver', CommandService, self.command_callback)
         rate = rospy.Rate(10) # 10hz
 
         while not rospy.is_shutdown():
