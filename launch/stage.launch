@@ -62,19 +62,19 @@
     <param name="frame_id" value="/map"/>
     </node> -->
 
-  <include file="$(find turtlebot_navigation)/launch/includes/amcl.launch.xml">
+  <!-- <include file="$(find turtlebot_navigation)/launch/includes/amcl.launch.xml">
     <arg name="scan_topic" value="scan"/>
     <arg name="use_map_topic" value="true"/>
     <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
     <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
     <arg name="initial_pose_a" value="$(arg initial_pose_a)"/>
-  </include>
+  </include> -->
 
   <!--  **************** Visualisation ****************  -->
   <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtlebot_stage)/rviz/robot_navigation.rviz"/> -->
 
   <!--  ***************** My nodes: *****************  -->
   !--  ******************************************** -->
-  <!-- <node pkg="botlom" name="driver" type="driver.py" /> -->
+  !-- <node pkg="Botlom" name="magic_sensor" type="magic_sensor.py"/> -->
 
 </launch>

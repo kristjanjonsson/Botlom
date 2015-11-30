@@ -33,16 +33,19 @@ floorplan
   name "tutorial"
   bitmap "tutorial.png"
   size [ 10.0 10.0 2.0 ]
-  pose [  5.0  5.0 0.0 0.0 ]
+  pose [ 5.0 5.0 0.0 0.0 ]
 )
 
 # throw in a robot
 turtlebot
 (
-  pose [ 2.0 2.0 0.0 0.5 ]
+  pose [ 5.0 1.0 0.0 0.90 ]
   name "turtlebot"
   color "black"
 )
 
 # adding blocks
-block( pose [ 7.000 4.000 0.000 0.000 ] color "green")
+block( pose [ 3.000 3.000 0.000 0.000 ] color "green")
+block( pose [ 6.000 4.000 0.000 0.000 ] color "red")
+block( pose [ 2.500 5.000 0.000 0.000 ] color "green")
+block( pose [ 7.500 7.000 0.000 0.000 ] color "red")

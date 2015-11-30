@@ -1,12 +1,7 @@
     #!/usr/bin/env python
 
-import math
 import rospy
-from geometry_msgs import Twist
-import tf
-from botlom.srv import CanPosition, CanPositionResponse
-from block_finder import get_blocks
-from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Twist, Vector3
 
 x, y = None, None
 roll, pitch, yaw = None, None, None
@@ -16,7 +11,10 @@ relative_positions = None
 class SimulationDriver:
     def __init__(self, node_name):
         rospy.init_node(node_name)
-        rospy.Service('simulation_driver', CanPosition, drive)
+        rospy.Service('simulation_driver', CanPosition, self.brake)
+        rospy.Service('simulation_driver', CanPosition, self.circle)
+        rospy.Service('simulation_driver', CanPosition, self.tank)
+        rospy.Service('simulation_driver', CanPosition, self.turn)
         self.circle_service_handle = rospy.ServiceProxy('get_can_position', CanPosition)
 
     # Takes in a single boolean. When the boolean is true (e.g. 1), stops the robot.
@@ -42,4 +40,4 @@ class SimulationDriver:
 
 
 if __name__ == "__main__":
-    driver = MagicSensor('simulation_driver')
+    driver = SimulationDriver('simulation_driver')
