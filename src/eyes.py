@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
-from Botlom.srv import ChangeColor
+from Botlom.srv import ChangeColor, CanLocation, CanLocationResponse
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 
@@ -10,6 +10,7 @@ from colordetect import ColorDetector
 
 
 green = ((59, 85), (0, 255), (0, 255))
+convert = CvBridge()
 
 
 class Eyes:
@@ -17,40 +18,35 @@ class Eyes:
 
     def __init__(self, node_name):
         self.detectors = [ColorDetector(*green), ColorDetector(*green)]
-        self.cap = cv2.VideoCapture(0)  # Does this work or do we need a ROS video nodes?
+        self.locations = [None, None]  # detected locations.
 
         rospy.init_node(node_name)
-        self.bridge = CvBridge()
-        self.raw = rospy.Publisher('raw', Image, queue_size=1)
+        self.image_feed = rospy.Subscriber("/usb_cam/image_raw", Image, self.image_callback, queue_size=1)
         self.bounding_box = rospy.Publisher('bounding_box', Image, queue_size=1)
+        self.mask_pubs = [rospy.Publisher('mask1', Image, queue_size=1),
+                          rospy.Publisher('mask2', Image, queue_size=1)]
 
-        rospy.Service('motion_mode_keyboard', ChangeColor, self.set_detector)
+        rospy.Service('change_color', ChangeColor, self.set_detector)
+        rospy.Service('get_location', ChangeColor, self.get_location)
         rospy.loginfo('{0} initialized.'.format(node_name))
 
-    def watch(self):
-        rate = rospy.Rate(24)
-        while not rospy.is_shutdown():
-            success, frame = self.cap.read()
-            if not success:
-                rospy.loginfo('Could not read image.')
-                break
+        rospy.spin()
 
-            # Publish the raw frame.
-            img_msg = self.bridge.cv2_to_imgmsg(frame, "bgr8")
-            self.raw.publish(img_msg)
+    def image_callback(self, image):
+        frame = convert.imgmsg_to_cv2(image, "bgr8")
 
-            # Draw bounding boxes on frame and publish.
-            hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-            for i in range(2):
-                bbox = self.detectors[i].bounding_box(hsv_frame)
-                if bbox:
-                    (x, y, w, h) = bbox
-                    cv2.rectangle(frame, (x, y), (x+w, y+h), color=(0, 255, 0))
-            img_msg = self.bridge.cv2_to_imgmsg(frame, "bgr8")
-            self.bounding_box.publish(img_msg)
+        # Draw bounding boxes on frame and publish.
+        hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        for i, detector in enumerate(self.detectors):
+            bbox = detector.bounding_box(hsv_frame)
 
-            rate.sleep()
-        rospy.loginfo('Shutting down.')
+            self.mask_pubs[i].publish(convert.cv2_to_imgmsg(detector.mask, 'mono8'))
+            if bbox:
+                (x, y, w, h) = bbox
+                self.locations[i] = bbox
+                cv2.rectangle(frame, (x, y), (x+w, y+h), color=(0, 255, 0))
+        img_msg = convert.cv2_to_imgmsg(frame, "bgr8")
+        self.bounding_box.publish(img_msg)
 
     def set_detector(self, request):
         try:
@@ -62,7 +58,18 @@ class Eyes:
         except Exception as e:
             return str(e)
 
+    def get_location(self, request):
+        try:
+            if request.which != 0 or request.which != 1:
+                raise ValueError('Invalid color detector {0}.\nCan only get location from 0 or 1.'.format(request.which))
+
+            (x, y, w, h) = self.locations[request.which]
+            return x, y, w, h, ''
+
+        except Exception as e:
+            return -1, -1, -1, -1, str(e)
+
+
 
 if __name__ == "__main__":
-    eyes = Eyes('Eyes')
-    eyes.watch()
+    eyes = Eyes('eyes')

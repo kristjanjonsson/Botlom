@@ -44,6 +44,7 @@ class ColorDetector:
         of the given color.'''
         mask = self.threshold(frame)
         morph(mask, kernel)
+        self.mask = mask  # Cache the mask for debuggin.
         return max_bounding_box(mask)
 
 
