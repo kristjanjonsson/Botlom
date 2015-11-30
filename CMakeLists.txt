@@ -9,7 +9,6 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
-  cv_bridge
 )
 
 ## System dependencies are found with CMake's conventions
@@ -57,6 +56,8 @@ add_service_files(
   FILES
   ChangeColor.srv
   CanLocation.srv
+  FlagPosition.srv
+  CommandService.srv
 )
 
 ## Generate actions in the 'action' folder
