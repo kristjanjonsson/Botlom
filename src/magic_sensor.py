@@ -69,7 +69,6 @@ def get_relative_flag_info():
 
     return flag_positions
 
-
 def update_robot_pose(ground_truth):
     global x, y
     global roll, pitch, yaw

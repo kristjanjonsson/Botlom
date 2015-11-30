@@ -5,8 +5,8 @@ from Botlom.srv import CommandService
 import time
 
 class Controller:
-    def __init__(self, node_name):
-        rospy.init_node(node_name)
+    def __init__(self, rospy):
+        # rospy.init_node(node_name)
         rospy.wait_for_service('command_receiver')
         self.command_handle = rospy.ServiceProxy('command_receiver', CommandService)
 
