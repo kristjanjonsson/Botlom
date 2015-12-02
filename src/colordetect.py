@@ -20,7 +20,7 @@ def large_area(area):
 def is_rectangle(bbox, contour_area):
     '''Approximation: If the contour_area is 0.9 of bounding box area.'''
     bbox_area = bbox[2] * bbox[3]
-    return contour_area >= 0.9 * bbox_area
+    return contour_area >= 0.95 * bbox_area
 
 
 def morph(frame, kernel):

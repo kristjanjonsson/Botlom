@@ -152,29 +152,29 @@ class ControllerTest:
     def try_recovery(self):
         print "I will now try to recover"
 
-        self.controller.move_backwards(1, 50)
+        self.controller.move_backwards(1, 100)
         if self.flag_visible(self.target_color):
             return
 
-        self.controller.turn_left(2, 50)
+        # self.controller.turn_left(2, 50)
+        # if self.flag_visible(self.target_color):
+        #     return
+
+        self.controller.move_backwards(1, 100)
         if self.flag_visible(self.target_color):
             return
 
-        self.controller.move_backwards(1, 50)
+        # self.controller.turn_right(2, 50)
+        # if self.flag_visible(self.target_color):
+        #     return
+
+        self.controller.move_backwards(1, 100)
         if self.flag_visible(self.target_color):
             return
 
-        self.controller.turn_right(2, 50)
-        if self.flag_visible(self.target_color):
-            return
-
-        self.controller.move_backwards(1, 50)
-        if self.flag_visible(self.target_color):
-            return
-
-        self.controller.turn_right(2, 50)
-        if self.flag_visible(self.target_color):
-            return
+        # self.controller.turn_right(2, 50)
+        # if self.flag_visible(self.target_color):
+        #     return
 
         # will stop trying
         self.tried_recovery = True
