@@ -47,7 +47,7 @@ class ControllerTest:
                 if not self.tried_recovery:
                     self.try_recover()
                     rate.sleep()
-                    break
+                    continue
             # If i got here, I may try recovery again soon.
             self.tried_recovery = False
 
