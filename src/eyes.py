@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
-from Botlom.srv import ChangeColor, CanLocation
+from Botlom.srv import ChangeColor, FlagLocation
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 
@@ -29,7 +29,7 @@ class Eyes:
                           rospy.Publisher('mask2', Image, queue_size=1)]
 
         rospy.Service('change_color', ChangeColor, self.set_detector)
-        rospy.Service('get_location', CanLocation, self.get_location)
+        rospy.Service('get_location', FlagLocation, self.get_location)
         rospy.loginfo('{0} initialized.'.format(node_name))
 
         rospy.spin()
