@@ -83,7 +83,7 @@ class ControllerTest:
             # Some slack in our calculations
             X_SLACK = 0.15 * X_MID
 
-            if flag_width > X_MID  + X_SLACK:
+            if flag_width > X_MID - X_SLACK:
                 self.is_close = True
                 print "Pretty close to a flag now."
             else:
