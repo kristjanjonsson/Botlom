@@ -39,13 +39,13 @@ class ControllerTest:
         while not rospy.is_shutdown():
 
             # Look at flag
-            self.flag_position =  self.get_location_service(self.target_color)
+            self.flag_position = self.get_location_service(self.target_color)
 
             # Do I see a flag?
             if self.flag_position.x == -1 and self.flag_position.y == -1:
                 print "Where is the flag?"
                 if not self.tried_recovery:
-                    self.try_recover()
+                    self.try_recovery()
                     rate.sleep()
                     continue
             # If i got here, I may try recovery again soon.
@@ -60,22 +60,13 @@ class ControllerTest:
             # Turn around flag
             if self.is_close:
                 self.turn_around_flag()
-            #
-                #self.find_next_flag()
-                #
-                #
-                # TODO: Sorta find next flag.
-                #
-                ## reset closeness and centeredeness.
-                # self.is_centered = False
-                # self.is_close = False
+                self.find_next_flag()
 
             # Sweet success:
             if self.completed_flags == self.total_flags:
                 self.controller.play_song()
                 while True:
                     self.controller.turn_left(0.25, 200)
-
 
             rate.sleep()
 
@@ -124,6 +115,7 @@ class ControllerTest:
         if self.target_color == 1:
             # we go to the right of greens
             self.controller.circle_left(4, 200)
+            if self.flag_position.x != -1 and self.flag_position.y != -1 :
         else:
             # we go to the left of reds.
             self.controller.circle_right(4, 200)
@@ -135,44 +127,49 @@ class ControllerTest:
     # target i
     def find_next_flag(self):
 
-        #swap color
+        #swap color, reset values
         self.target_color =  (self.target_color + 1) % 2
+        self.is_centered = False
+        self.is_close = False
 
-        if self.target_color == 0:
-            pass
-            # was pink, so we went through its left side.
-            # we should look mostly to the left to find next green flag.
-            # TODO: This
-        else:
-            pass
-            # was green, so we went through its right side.
-            # we should look mostly to the right to find next green flag.
-            # TODO: This
+        print "Where is the next flag?"
+        while True:
+            self.flag_position = self.get_location_service(self.target_color)
+            if self.flag_position.x != -1 and self.flag_position.y != -1:
+                print "Found it"
+                break
+            else:
+                if self.target_color == 1:
+                    # we should look mostly to the right to find next green flag.
+                    self.controller.turn_left(0.1, 25)
+                else:
+                    # we should look mostly to the left to find next green flag.
+                    self.controller.turn_right(0.1, 25)
 
     def try_recovery(self):
         print "I will now try to recover"
         self.controller.move_backwards(0.1, 0.25)
-        if self.flag_position.x <> -1 and self.flag_position.y <> -1:
+        if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
         self.controller.turn_left(0.2, 0.25)
-        if self.flag_position.x <> -1 and self.flag_position.y <> -1:
+        if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
         self.controller.move_backwards(0.1, 0.25)
-        if self.flag_position.x <> -1 and self.flag_position.y <> -1:
+        if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
         self.controller.turn_right(0.2, 0.25)
-        if self.flag_position.x <> -1 and self.flag_position.y <> -1:
+        if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
         self.controller.move_backwards(0.1, 0.25)
-        if self.flag_position.x <> -1 and self.flag_position.y <> -1:
+        if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
         self.controller.turn_right(0.2, 0.25)
-        if self.flag_position.x <> -1 and self.flag_position.y <> -1:
+        if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
         print "Still couldn't find the flag. I will stop now."
