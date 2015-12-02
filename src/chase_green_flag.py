@@ -144,10 +144,10 @@ class ControllerTest:
             else:
                 if self.target_color == 1:
                     # we should look mostly to the right to find next green flag.
-                    self.controller.turn_left(0.1, 150)
+                    self.controller.turn_left(0.1, 75)
                 else:
                     # we should look mostly to the left to find next green flag.
-                    self.controller.turn_right(0.1, 150)
+                    self.controller.turn_right(0.1, 75)
 
     def try_recovery(self):
         print "I will now try to recover"
