@@ -152,42 +152,36 @@ class ControllerTest:
     def try_recovery(self):
         print "I will now try to recover"
 
-        self.controller.move_backwards(0.1, 50)
-        self.flag_position = self.get_location_service(self.target_color)
-        if self.flag_position.x != -1 and self.flag_position.y != -1:
+        self.controller.move_backwards(1, 50)
+        if self.flag_visible(self.target_color):
             return
 
-        self.controller.turn_left(0.2, 50)
-        self.flag_position = self.get_location_service(self.target_color)
-        if self.flag_position.x != -1 and self.flag_position.y != -1:
+        self.controller.turn_left(1, 50)
+        if self.flag_visible(self.target_color):
             return
 
-        self.controller.move_backwards(0.1, 50)
-        self.flag_position = self.get_location_service(self.target_color)
-        if self.flag_position.x != -1 and self.flag_position.y != -1:
+        self.controller.move_backwards(1, 50)
+        if self.flag_visible(self.target_color):
             return
 
-        self.controller.turn_right(0.2, 50)
-        self.flag_position = self.get_location_service(self.target_color)
-        if self.flag_position.x != -1 and self.flag_position.y != -1:
+        self.controller.turn_right(1, 50)
+        if self.flag_visible(self.target_color):
             return
 
-        self.controller.move_backwards(0.1, 50)
-        self.flag_position = self.get_location_service(self.target_color)
-        if self.flag_position.x != -1 and self.flag_position.y != -1:
+        self.controller.move_backwards(1, 50)
+        if self.flag_visible(self.target_color):
             return
 
-        self.controller.turn_right(0.2, 50)
-        self.flag_position = self.get_location_service(self.target_color)
-        if self.flag_position.x != -1 and self.flag_position.y != -1:
+        self.controller.turn_right(1, 50)
+        if self.flag_visible(self.target_color):
             return
 
         # will stop trying
         self.tried_recovery = True
 
     def flag_visible(self, color):
-        self.flag_position = self.get_location_service(self.target_color)
-        return self.flag_position.x != -1 and self.flag_position.y != -1
+        flag_position = self.get_location_service(color)
+        return flag_position.x != -1 and flag_position.y != -1
 
 
 if __name__ == "__main__":
