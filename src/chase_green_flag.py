@@ -41,14 +41,17 @@ class ControllerTest:
         centered_on_flag = False
         while not centered_on_flag:
 
-            flag_location =  self.get_location_service(0) # 0 is green
+            flag_position =  self.get_location_service(0) # 0 is green
+            flag_center = flag_position.x + (flag_position.w/2.0)
 
-            if (X_MID - X_SLACK) < flag_location.x < (X_MID + X_SLACK):
+            # Centered
+            if (X_MID - X_SLACK) < flag_center < (X_MID + X_SLACK):
                 centered_on_flag = True
-            elif flag_location.x > (X_MID + X_SLACK):
-                self.controller.turn_left(0.1)
-            else:
+
+            elif flag_center > (X_MID + X_SLACK):
                 self.controller.turn_right(0.1)
+            else:
+                self.controller.turn_left(0.1)
 
 
 if __name__ == "__main__":
