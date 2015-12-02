@@ -56,7 +56,6 @@ add_service_files(
   FILES
   ChangeColor.srv
   FlagLocation.srv
-  FlagPosition.srv
   CommandService.srv
 )
 
@@ -177,7 +176,6 @@ include_directories(include
 # )
 catkin_install_python(
    PROGRAMS
-   src/navigation.py
    src/eyes.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
