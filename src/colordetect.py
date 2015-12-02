@@ -6,8 +6,15 @@ import cv2
 # Use a 5x5 elliptic kernel.
 kernel = np.ones((7, 7), np.uint8)
 
-# TODO: Set the threshold for min area?
+# Set the threshold for min area?
 bbox_area_threshold = 500
+
+# When detected area at least 1/5 of total then say it's flag.
+total_area = 640 * 480
+
+
+def large_area(area):
+    return area > 0.1 * total_area
 
 
 def morph(frame, kernel):
@@ -20,7 +27,7 @@ def max_bounding_box(binary_img):
     contours = cv2.findContours(binary_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
     if contours:
         bboxes = [(cv2.contourArea(c), cv2.boundingRect(c)) for c in contours]
-        bboxes = [(a, r) for (a, r) in bboxes if r[2] < r[3]]
+        bboxes = [(a, r) for (a, r) in bboxes if (r[2] < r[3]) or large_area(a)]
         if bboxes:
             area, bbox = max(bboxes)
             if area > bbox_area_threshold:
