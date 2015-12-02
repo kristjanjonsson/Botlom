@@ -4,7 +4,7 @@ import numpy as np
 import cv2
 
 # Use a 5x5 elliptic kernel.
-kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+kernel = np.ones((7, 7), np.uint8)
 
 # TODO: Set the threshold for min area?
 bbox_area_threshold = 200
@@ -18,9 +18,11 @@ def morph(frame, kernel):
 def max_bounding_box(binary_img):
     contours = cv2.findContours(binary_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
     if contours:
-        max_contour = max(contours, key=cv2.contourArea)
-        if cv2.contourArea(max_contour) > bbox_area_threshold:
-            return cv2.boundingRect(max_contour)
+        bboxes = [(cv2.contourArea(c), cv2.boundingRect(c)) for c in contours]
+        bboxes = [(a, r) for (a, r) in bboxes if r[2] < r[3]]
+        area, bbox = max(bboxes)
+        if area > bbox_area_threshold:
+            return bbox
 
 
 class ColorDetector:
@@ -41,9 +43,9 @@ class ColorDetector:
     def threshold(self, frame):
         '''Returns a binary image with pixels falling into the appropriate hsv range.'''
         mask = cv2.inRange(frame, self.hsv_values[:, 0], self.hsv_values[:, 1])
-        if self.hsv_values2:
+        if self.hsv_values2 is not None:
             mask2 = cv2.inRange(frame, self.hsv_values2[:, 0], self.hsv_values2[:, 1])
-            mask += mask2
+            cv2.bitwise_and(mask, mask2, dst=mask)
         return mask
 
     def bounding_box(self, frame):
