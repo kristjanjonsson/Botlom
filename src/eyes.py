@@ -37,6 +37,10 @@ class Eyes:
     def image_callback(self, image):
         frame = convert.imgmsg_to_cv2(image, "bgr8")
 
+        # Downsample + upsample to remove noise.
+        frame_down = cv2.pyrDown(frame)
+        frame = cv2.pyrUp(frame_down)
+
         # Draw bounding boxes on frame and publish.
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         for i, detector in enumerate(self.detectors):
