@@ -55,7 +55,7 @@ find_package(catkin REQUIRED COMPONENTS
 add_service_files(
   FILES
   ChangeColor.srv
-  CanLocation.srv
+  FlagLocation.srv
   FlagPosition.srv
   CommandService.srv
 )
