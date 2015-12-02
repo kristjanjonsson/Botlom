@@ -52,7 +52,7 @@ class Eyes:
 
     def set_detector(self, request):
         try:
-            if request.which != 0 or request.which != 1:
+            if request.which != 0 and request.which != 1:
                 raise ValueError('Invalid color detector {0}.\nCan only change detectors 0 or 1'.format(request.which))
 
             self.detectors[request.which] = ColorDetector(request.hue, request.saturation, request.value)
@@ -62,7 +62,7 @@ class Eyes:
 
     def get_location(self, request):
         try:
-            if request.which != 0 or request.which != 1:
+            if request.which != 0 and request.which != 1:
                 raise ValueError('Invalid color detector {0}.\nCan only get location from 0 or 1.'.format(request.which))
 
             (x, y, w, h) = self.locations[request.which]
