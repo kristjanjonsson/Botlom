@@ -44,11 +44,18 @@ class ControllerTest:
             # Move to flag
             self.approach_flag()
 
-            # Make turn
-            # TODO: This
-
-            # Change target color
-            # TODO: This
+            # Turn around flag
+            # if self.is_close:
+            #     self.turn_around_flag()
+            #
+                #self.find_next_flag()
+                #
+                #
+                # TODO: Sorta find next flag.
+                #
+                ## reset closeness and centeredeness.
+                # self.is_centered = False
+                # self.is_close = False
 
             rate.sleep()
 
@@ -73,10 +80,11 @@ class ControllerTest:
             self.is_centered = False
             print "Gotta turn left..."
 
+    # approach if possible
     def approach_flag(self):
-        if not self.is_centered:
-            print "I won't even try to approach it now..."
-        else:
+
+        # only approach if centered...
+        if self.is_centered:
             self.is_close = False
             flag_width = self.flag_position.w
 
@@ -90,6 +98,34 @@ class ControllerTest:
                 self.controller.move_forward(25)
                 self.is_close = False
                 print "Gotta move closer to the flag..."
+
+    def turn_around_flag(self):
+        if self.target_color == 1:
+            # we go to the right of greens
+            self.controller.circle_left(1,250)
+        else:
+            # we go to the left of reds.
+            self.controller.circle_right(1, 250)
+
+    # finds next flag after turn.
+    # target i
+    def find_next_flag(self):
+
+        #swap color
+        self.target_color =  (self.target_color + 1) % 2
+
+        if self.target_color == 0:
+            pass
+            # was pink, so we went through its left side.
+            # we should look mostly to the left to find next green flag.
+            # TODO: This
+        else:
+            pass    
+            # was green, so we went through its right side.
+            # we should look mostly to the right to find next green flag.
+            # TODO: This
+
+
 
 
 if __name__ == "__main__":
