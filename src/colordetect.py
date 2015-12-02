@@ -7,7 +7,7 @@ import cv2
 kernel = np.ones((7, 7), np.uint8)
 
 # Set the threshold for min area?
-bbox_area_threshold = 500
+bbox_area_threshold = 1000
 
 # When detected area at least 1/5 of total then say it's flag.
 total_area = 640 * 480
