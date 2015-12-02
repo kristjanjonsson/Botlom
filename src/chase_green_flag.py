@@ -45,7 +45,7 @@ class ControllerTest:
             if self.flag_position.x == -1 and self.flag_position.y == -1:
                 print "Where is the flag?"
                 if not self.tried_recovery:
-                    self.try_recover()
+                    self.try_recovery()
                     rate.sleep()
                     continue
             # If i got here, I may try recovery again soon.
@@ -124,9 +124,11 @@ class ControllerTest:
         if self.target_color == 1:
             # we go to the right of greens
             self.controller.circle_left(4, 200)
+            self.target_color = 0
         else:
             # we go to the left of reds.
             self.controller.circle_right(4, 200)
+            self.target_color = 1
 
         # another flag down
         self.completed_flags += 1
