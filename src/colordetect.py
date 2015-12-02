@@ -7,7 +7,7 @@ import cv2
 kernel = np.ones((7, 7), np.uint8)
 
 # Set the threshold for min area?
-bbox_area_threshold = 1000
+bbox_area_threshold = 1500
 
 # When detected area at least 1/5 of total then say it's flag.
 total_area = 640 * 480
@@ -33,7 +33,7 @@ def max_bounding_box(binary_img):
     contours = cv2.findContours(binary_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
     if contours:
         bboxes = [(cv2.contourArea(c), cv2.boundingRect(c)) for c in contours]
-        bboxes = [(a, r) for (a, r) in bboxes if ((r[2] < r[3]) or large_area(a)) and is_rectangle(a, r)]
+        bboxes = [(a, r) for (a, r) in bboxes if ((r[2] < r[3]) or large_area(a)) and is_rectangle(r, a)]
         if bboxes:
             area, bbox = max(bboxes)
             if area > bbox_area_threshold:
