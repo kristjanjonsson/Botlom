@@ -66,9 +66,9 @@ class ControllerTest:
                 self.turn_around_flag()
 
                 if self.completed_flags == self.total_flags:
-                self.controller.play_song()
-                while True:
-                    self.controller.turn_left(0.25, 200)
+                    self.controller.play_song()
+                    while True:
+                        self.controller.turn_left(0.25, 200)
                 
                 self.find_next_flag()
 
