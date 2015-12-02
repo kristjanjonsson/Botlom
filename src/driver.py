@@ -22,13 +22,12 @@ class Driver:
         self.connection = None
         self.connectToRobot()
 
-        # quick dirty hack to make robot responsive.
-        self.sendCommandASCII('128') # set passive
-        self.sendCommandASCII('131') # set safe
+        # quick hack to make robot responsive
+        self.setSafe()
 
         # start node and spin.
         rospy.init_node(node_name)
-        rospy.Service('command_keyboard', CommandService, self.command_callback)
+        rospy.Service('command_receiver', CommandService, self.command_callback)
         rate = rospy.Rate(10) # 10hz
 
         while not rospy.is_shutdown():
@@ -111,7 +110,6 @@ class Driver:
         try:
             self.connection = serial.Serial(port, baudrate=115200, timeout=1)
             print "Connected!"
-            print "Move your robot by opening the Keyboard Control Receiver window."
         except:
             print "Failed to connect to robot."
             print "Either the robot is not connected, or your user does not own the device."
@@ -135,6 +133,11 @@ class Driver:
                               ' 69 16' + # A
                               ' 67 64' + # G
                               ' 141 3') # Play music
+
+    def setSafe(self):
+        # quick dirty hack to make robot responsive.
+        self.sendCommandASCII('128') # set passive
+        self.sendCommandASCII('131') # set safe
 
 if __name__ == "__main__":
     driver = Driver('create_driver')
