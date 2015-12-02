@@ -22,6 +22,7 @@ class ControllerTest:
         # For checking flag positions
         rospy.wait_for_service('get_flag_position')
         self.get_location_service = rospy.ServiceProxy('get_location', FlagLocation)
+        rospy.loginfo('Got handle toget_location service.')
 
         # Get controller
         self.controller = Controller(rospy)
