@@ -27,11 +27,25 @@ class ControllerTest:
         # Get controller
         self.controller = Controller(rospy)
 
+        # Initially go to green flag
+        # 0 is green
+        # 1 is red
+        self.target_color = 0
+
         rate = rospy.Rate(10)
         while not rospy.is_shutdown():
 
             # Center on flag
             self.center_on_flag()
+
+            # Move to flag
+            # approach_flag
+
+            # Make turn
+            # TODO: This
+
+            # Change target color
+            # TODO: This
 
             rate.sleep()
 
@@ -40,7 +54,7 @@ class ControllerTest:
         centered_on_flag = False
         while not centered_on_flag:
 
-            flag_position =  self.get_location_service(0) # 0 is green
+            flag_position =  self.get_location_service(self.target_color) # 0 is green
             flag_center = flag_position.x + (flag_position.w/2.0)
 
             # Centered
@@ -56,7 +70,7 @@ class ControllerTest:
         close_to_flag = False
         while not close_to_flag:
 
-            flag_position =  self.get_location_service(0) # 0 is green
+            flag_position =  self.get_location_service(self.target_color) # 0 is green
             flag_width = flag_position.w
 
             if flag_width > X_MID  + X_SLACK:
