@@ -115,10 +115,10 @@ class ControllerTest:
         print "Time to turn around the flag!"
         if self.target_color == 1:
             # we go to the right of greens
-            self.controller.circle_left(4, 200)
+            self.controller.circle_left(6, 200)
         else:
             # we go to the left of reds.
-            self.controller.circle_right(4, 200)
+            self.controller.circle_right(6, 200)
 
         # another flag down
         self.completed_flags += 1
