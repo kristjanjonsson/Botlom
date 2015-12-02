@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from controller import *
-from Botlom.srv import ChangeColor, FlagLocation
+from controller import Controller
+from Botlom.srv import FlagLocation
 import rospy
 
 
@@ -11,7 +11,8 @@ Y_RES = 480
 
 # Positioning constants
 X_MID = X_RES / 2
-Y_MID = Y_RES /2
+Y_MID = Y_RES / 2
+
 
 class ControllerTest:
     def __init__(self, node_name):
@@ -115,7 +116,6 @@ class ControllerTest:
         if self.target_color == 1:
             # we go to the right of greens
             self.controller.circle_left(4, 200)
-            if self.flag_position.x != -1 and self.flag_position.y != -1 :
         else:
             # we go to the left of reds.
             self.controller.circle_right(4, 200)
@@ -127,8 +127,8 @@ class ControllerTest:
     # target i
     def find_next_flag(self):
 
-        #swap color, reset values
-        self.target_color =  (self.target_color + 1) % 2
+        # Swap color, reset values
+        self.target_color = (self.target_color + 1) % 2
         self.is_centered = False
         self.is_close = False
 
@@ -174,7 +174,6 @@ class ControllerTest:
 
         print "Still couldn't find the flag. I will stop now."
         self.tried_recovery = True
-
 
 
 if __name__ == "__main__":
