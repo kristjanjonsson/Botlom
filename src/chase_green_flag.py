@@ -156,7 +156,7 @@ class ControllerTest:
         if self.flag_visible(self.target_color):
             return
 
-        self.controller.turn_left(1, 50)
+        self.controller.turn_left(2, 50)
         if self.flag_visible(self.target_color):
             return
 
@@ -164,7 +164,7 @@ class ControllerTest:
         if self.flag_visible(self.target_color):
             return
 
-        self.controller.turn_right(1, 50)
+        self.controller.turn_right(2, 50)
         if self.flag_visible(self.target_color):
             return
 
@@ -172,7 +172,7 @@ class ControllerTest:
         if self.flag_visible(self.target_color):
             return
 
-        self.controller.turn_right(1, 50)
+        self.controller.turn_right(2, 50)
         if self.flag_visible(self.target_color):
             return
 
