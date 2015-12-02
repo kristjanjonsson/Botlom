@@ -36,7 +36,6 @@ class ControllerTest:
             rate.sleep()
 
     # Center on flag if needed
-    # returns whether or not we are centerd.
     def center_on_flag(self):
         centered_on_flag = False
         while not centered_on_flag:
@@ -49,9 +48,22 @@ class ControllerTest:
                 centered_on_flag = True
 
             elif flag_center > (X_MID + X_SLACK):
-                self.controller.turn_right(0.1, 100)
+                self.controller.turn_right(0.1, 25)
             else:
-                self.controller.turn_left(0.1, 100)
+                self.controller.turn_left(0.1, 25)
+
+    def approach_flag(self):
+        close_to_flag = False
+        while not close_to_flag:
+
+            flag_position =  self.get_location_service(0) # 0 is green
+            flag_width = flag_position.w
+
+            if flag_width > X_MID  + X_SLACK:
+                close_to_flag = True
+            else:
+                self.controller.move_forward(25)
+
 
 
 if __name__ == "__main__":
