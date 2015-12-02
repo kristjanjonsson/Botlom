@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
-from Botlom.srv import ChangeColor, CanLocation, CanLocationResponse
+from Botlom.srv import ChangeColor, CanLocation
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 
@@ -9,7 +9,9 @@ import cv2
 from colordetect import ColorDetector
 
 
-green = ((59, 85), (0, 255), (0, 255))
+pink = ((154, 179), (0, 168), (207, 255))
+green = ((73,  96), (0, 255), (0, 255))
+
 convert = CvBridge()
 
 
@@ -17,7 +19,7 @@ class Eyes:
     '''The eyes of our beloved Botlom.'''
 
     def __init__(self, node_name):
-        self.detectors = [ColorDetector(*green), ColorDetector(*green)]
+        self.detectors = [ColorDetector(*green), ColorDetector(*pink)]
         self.locations = [None, None]  # detected locations.
 
         rospy.init_node(node_name)
@@ -27,7 +29,7 @@ class Eyes:
                           rospy.Publisher('mask2', Image, queue_size=1)]
 
         rospy.Service('change_color', ChangeColor, self.set_detector)
-        rospy.Service('get_location', ChangeColor, self.get_location)
+        rospy.Service('get_location', CanLocation, self.get_location)
         rospy.loginfo('{0} initialized.'.format(node_name))
 
         rospy.spin()
@@ -68,7 +70,6 @@ class Eyes:
 
         except Exception as e:
             return -1, -1, -1, -1, str(e)
-
 
 
 if __name__ == "__main__":
