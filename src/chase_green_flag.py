@@ -12,8 +12,6 @@ Y_RES = 480
 # Positioning constants
 X_MID = X_RES / 2
 Y_MID = Y_RES /2
-X_SLACK = 0.05 * X_MID
-Y_SLACK = 0.05 * Y_MID
 
 class ControllerTest:
     def __init__(self, node_name):
@@ -31,15 +29,20 @@ class ControllerTest:
         # 0 is green
         # 1 is red
         self.target_color = 0
+        self.is_centered = False
+        self.is_close = False
 
         rate = rospy.Rate(10)
         while not rospy.is_shutdown():
+
+            # Look at flag
+            self.flag_position =  self.get_location_service(self.target_color)
 
             # Center on flag
             self.center_on_flag()
 
             # Move to flag
-            # approach_flag
+            self.approach_flag()
 
             # Make turn
             # TODO: This
@@ -49,35 +52,44 @@ class ControllerTest:
 
             rate.sleep()
 
-    # Center on flag if needed
+    # Center on flag if needed.
     def center_on_flag(self):
-        centered_on_flag = False
-        while not centered_on_flag:
+        self.is_centered = False
+        flag_center = self.flag_position.x + (self.flag_position.w/2.0)
 
-            flag_position =  self.get_location_service(self.target_color) # 0 is green
-            flag_center = flag_position.x + (flag_position.w/2.0)
+        # Some slack in our calculations
+        X_SLACK = 0.15 * X_MID
 
-            # Centered
-            if (X_MID - X_SLACK) < flag_center < (X_MID + X_SLACK):
-                centered_on_flag = True
+        if (X_MID - X_SLACK) < flag_center < (X_MID + X_SLACK):
+            self.is_centered = True
+            print "Flag is centered!"
 
-            elif flag_center > (X_MID + X_SLACK):
-                self.controller.turn_right(0.1, 25)
-            else:
-                self.controller.turn_left(0.1, 25)
+        elif flag_center > (X_MID + X_SLACK):
+            self.controller.turn_right(0.1, 25)
+            self.is_centered = False
+            print "Gotta turn right..."
+        else:
+            self.controller.turn_left(0.1, 25)
+            self.is_centered = False
+            print "Gotta turn left..."
 
     def approach_flag(self):
-        close_to_flag = False
-        while not close_to_flag:
+        if not self.is_centered:
+            print "I won't even try to approach it now..."
+        else:
+            self.is_close = False
+            flag_width = self.flag_position.w
 
-            flag_position =  self.get_location_service(self.target_color) # 0 is green
-            flag_width = flag_position.w
+            # Some slack in our calculations
+            X_SLACK = 0.15 * X_MID
 
             if flag_width > X_MID  + X_SLACK:
-                close_to_flag = True
+                self.is_close = True
+                print "Pretty close to a flag now."
             else:
                 self.controller.move_forward(25)
-
+                self.is_close = False
+                print "Gotta move closer to the flag..."
 
 
 if __name__ == "__main__":
