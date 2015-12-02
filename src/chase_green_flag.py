@@ -72,7 +72,7 @@ class ControllerTest:
         flag_center = self.flag_position.x + (self.flag_position.w/2.0)
 
         # Some slack in our calculations
-        X_SLACK = 0.15 * X_MID
+        X_SLACK = 0.10 * X_MID
 
         if (X_MID - X_SLACK) < flag_center < (X_MID + X_SLACK):
             self.is_centered = True
@@ -96,15 +96,15 @@ class ControllerTest:
             flag_width = self.flag_position.w
 
             # Some slack in our calculations
-            X_SLACK = 0.15 * X_MID
+            X_SLACK = 0.10 * X_MID
 
-            if flag_width > X_MID - X_SLACK:
+            if flag_width > (X_RES/2) - X_SLACK:
                 self.is_close = True
                 print "Pretty close to a flag now."
             else:
                 self.controller.move_forward(25)
                 self.is_close = False
-                print "Gotta move closer to the flag..."
+                print "Gotta move closer to the flag...width is " + str(flag_width)
 
     def turn_around_flag(self):
         if self.target_color == 1:
