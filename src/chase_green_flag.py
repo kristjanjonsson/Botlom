@@ -144,34 +144,41 @@ class ControllerTest:
             else:
                 if self.target_color == 1:
                     # we should look mostly to the right to find next green flag.
-                    self.controller.turn_left(0.1, 25)
+                    self.controller.turn_left(0.1, 50)
                 else:
                     # we should look mostly to the left to find next green flag.
-                    self.controller.turn_right(0.1, 25)
+                    self.controller.turn_right(0.1, 50)
 
     def try_recovery(self):
         print "I will now try to recover"
-        self.controller.move_backwards(0.1, 25)
+
+        self.controller.move_backwards(0.1, 50)
+        self.flag_position = self.get_location_service(self.target_color)
         if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
-        self.controller.turn_left(0.2, 25)
+        self.controller.turn_left(0.2, 50)
+        self.flag_position = self.get_location_service(self.target_color)
         if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
-        self.controller.move_backwards(0.1, 25)
+        self.controller.move_backwards(0.1, 50)
+        self.flag_position = self.get_location_service(self.target_color)
         if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
-        self.controller.turn_right(0.2, 25)
+        self.controller.turn_right(0.2, 50)
+        self.flag_position = self.get_location_service(self.target_color)
         if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
-        self.controller.move_backwards(0.1, 25)
+        self.controller.move_backwards(0.1, 50)
+        self.flag_position = self.get_location_service(self.target_color)
         if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
-        self.controller.turn_right(0.2, 25)
+        self.controller.turn_right(0.2, 50)
+        self.flag_position = self.get_location_service(self.target_color)
         if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
