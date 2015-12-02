@@ -10,50 +10,50 @@ class Controller:
         rospy.wait_for_service('command_receiver')
         self.command_handle = rospy.ServiceProxy('command_receiver', CommandService)
 
-    def move_forward(self, press_time = 0.25):
-        self.command_handle("UP", "2")
+    def move_forward(self, press_time = 0.25, speed = 400):
+        self.command_handle("UP", "2", speed)
         time.sleep(press_time)
-        response = self.command_handle("UP", "3")
+        response = self.command_handle("UP", "3", speed)
 
         if response.error:
             print response.error
 
-    def move_backwards(self, press_time = 0.25):
-        self.command_handle("DOWN", "2")
+    def move_backwards(self, press_time = 0.25, speed = 400):
+        self.command_handle("DOWN", "2", speed)
         time.sleep(press_time)
-        response = self.command_handle("DOWN", "3")
+        response = self.command_handle("DOWN", "3", speed)
 
         if response.error:
             print response.error
 
-    def turn_left(self, press_time = 0.25):
-        self.command_handle("LEFT", "2")
+    def turn_left(self, press_time = 0.25, speed = 400):
+        self.command_handle("LEFT", "2", speed)
         time.sleep(press_time)
-        response = self.command_handle("LEFT", "3")
+        response = self.command_handle("LEFT", "3", speed)
 
         if response.error:
             print response.error
 
-    def turn_right(self, press_time = 0.25):
-        self.command_handle("RIGHT", "2")
+    def turn_right(self, press_time = 0.25, speed = 400):
+        self.command_handle("RIGHT", "2", speed)
         time.sleep(press_time)
-        response = self.command_handle("RIGHT", "3")
+        response = self.command_handle("RIGHT", "3", speed)
 
         if response.error:
             print response.error
 
-    def play_song(self, press_time = 0.25):
-        self.command_handle("S", "2")
+    def play_song(self, press_time = 0.25, speed = 400):
+        self.command_handle("S", "2", speed)
         time.sleep(press_time)
-        response = self.command_handle("S", "3")
+        response = self.command_handle("S", "3", speed)
 
         if response.error:
             print response.error
 
 
     # A handler for keyboard events. Feel free to add more!
-    def callbackKey(self, event):
-        response = self.command_handle(k, event.type)
+    def callbackKey(self, event, speed):
+        response = self.command_handle(k, event.type, speed)
         if response.error:
             print response.error
             print
