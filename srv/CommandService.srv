@@ -1,5 +1,5 @@
 string keypress
 string type
-string speed
+int32 speed
 ---
 string error
