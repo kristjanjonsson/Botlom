@@ -107,6 +107,7 @@ class ControllerTest:
                 print "Gotta move closer to the flag...width is " + str(flag_width)
 
     def turn_around_flag(self):
+        print "Time to turn around the flag!"
         if self.target_color == 1:
             # we go to the right of greens
             self.controller.circle_left(4, 200)
