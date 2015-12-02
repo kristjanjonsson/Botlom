@@ -46,11 +46,11 @@ class Controller:
 
         # must turn before circling
         self.command_handle("LEFT", "2", 400)
-        time.sleep("5")
+        time.sleep(0.8)
         self.command_handle("LEFT", "3", 400)
 
         self.command_handle("RIGHT", "2", speed)
-        self.command_handle("UP", "2", speed)
+        self.command_handle("UP", "2", speed*2)
         time.sleep(press_time)
         self.command_handle("RIGHT", "3", speed)
         self.command_handle("UP", "3", speed)
@@ -59,11 +59,11 @@ class Controller:
 
         # must turn before circling
         self.command_handle("RIGHT", "2", 400)
-        time.sleep("5")
+        time.sleep(0.8)
         self.command_handle("RIGHT", "3", 400)
 
         self.command_handle("LEFT", "2", speed)
-        self.command_handle("UP", "2", speed)
+        self.command_handle("UP", "2", speed*2)
         time.sleep(press_time)
         self.command_handle("LEFT", "3", speed)
         self.command_handle("UP", "3", speed)
