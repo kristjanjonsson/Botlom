@@ -4,7 +4,7 @@ import numpy as np
 import cv2
 
 # Use a 5x5 elliptic kernel.
-kernel = np.ones((7, 7), np.uint8)
+kernel = np.ones((8, 8), np.uint8)
 
 # Set the threshold for min area?
 bbox_area_threshold = 800
@@ -20,7 +20,7 @@ def large_area(area):
 def is_rectangle(bbox, contour_area):
     '''Approximation: If the contour_area is 0.9 of bounding box area.'''
     bbox_area = bbox[2] * bbox[3]
-    return contour_area >= 0.7 * bbox_area
+    return contour_area >= 0.6 * bbox_area
 
 
 def morph(frame, kernel):
