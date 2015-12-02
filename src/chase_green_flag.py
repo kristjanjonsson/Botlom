@@ -38,6 +38,13 @@ class ControllerTest:
             # Look at flag
             self.flag_position =  self.get_location_service(self.target_color)
 
+            # Do I see a flag?
+            if self.flag_position.x == -1 and self.flag_position.y == -1:
+                print "Where is the flag?"
+                #TODO: something smarter here
+                rate.sleep()
+                break
+
             # Center on flag
             self.center_on_flag()
 
@@ -120,7 +127,7 @@ class ControllerTest:
             # we should look mostly to the left to find next green flag.
             # TODO: This
         else:
-            pass    
+            pass
             # was green, so we went through its right side.
             # we should look mostly to the right to find next green flag.
             # TODO: This
