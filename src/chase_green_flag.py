@@ -49,9 +49,9 @@ class ControllerTest:
                 centered_on_flag = True
 
             elif flag_center > (X_MID + X_SLACK):
-                self.controller.turn_right(0.1)
+                self.controller.turn_right(0.1, 100)
             else:
-                self.controller.turn_left(0.1)
+                self.controller.turn_left(0.1, 100)
 
 
 if __name__ == "__main__":

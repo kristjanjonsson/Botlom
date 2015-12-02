@@ -1,4 +1,5 @@
 string keypress
 string type
+string speed
 ---
 string error

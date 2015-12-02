@@ -5,9 +5,6 @@ from Botlom.srv import CommandService
 import serial
 import struct
 
-VELOCITYCHANGE = 400
-ROTATIONCHANGE = 600
-
 class Driver:
 
     def __init__(self, node_name):
@@ -17,6 +14,9 @@ class Driver:
         self.callbackKeyRight = False
         self.callbackKeyBeep = False
         self.callbackKeyLastDriveCommand = ''
+
+        # Default speed
+        self.speed = 400
 
         # connecting
         self.connection = None
@@ -32,11 +32,11 @@ class Driver:
 
         while not rospy.is_shutdown():
             velocity = 0
-            velocity += VELOCITYCHANGE if self.callbackKeyUp is True else 0
-            velocity -= VELOCITYCHANGE if self.callbackKeyDown is True else 0
+            velocity += self.speed if self.callbackKeyUp is True else 0
+            velocity -= self.speed if self.callbackKeyDown is True else 0
             rotation = 0
-            rotation += ROTATIONCHANGE if self.callbackKeyLeft is True else 0
-            rotation -= ROTATIONCHANGE if self.callbackKeyRight is True else 0
+            rotation += self.speed if self.callbackKeyLeft is True else 0
+            rotation -= self.speed if self.callbackKeyRight is True else 0
 
             # compute left and right wheel velocities
             vr = velocity + (rotation/2)
@@ -52,6 +52,7 @@ class Driver:
 
     def command_callback(self, request):
         try:
+            self.speed = request.speed
             self.send_command(request)
         except Exception as error:
             return str(error)
@@ -83,7 +84,6 @@ class Driver:
                 self.callbackKeyLeft = False
             elif k == 'RIGHT':
                 self.callbackKeyRight = False
-
 
     def sendCommandASCII(self, command):
         cmd = ""
