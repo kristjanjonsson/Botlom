@@ -17,6 +17,12 @@ def large_area(area):
     return area > 0.1 * total_area
 
 
+def is_rectangle(bbox, contour_area):
+    '''Approximation: If the contour_area is 0.9 of bounding box area.'''
+    bbox_area = bbox[2] * bbox[3]
+    return contour_area >= 0.9 * bbox_area
+
+
 def morph(frame, kernel):
     morphed = cv2.morphologyEx(frame, cv2.MORPH_OPEN, kernel)
     cv2.morphologyEx(frame, cv2.MORPH_CLOSE, kernel, dst=morphed)
@@ -27,7 +33,7 @@ def max_bounding_box(binary_img):
     contours = cv2.findContours(binary_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
     if contours:
         bboxes = [(cv2.contourArea(c), cv2.boundingRect(c)) for c in contours]
-        bboxes = [(a, r) for (a, r) in bboxes if (r[2] < r[3]) or large_area(a)]
+        bboxes = [(a, r) for (a, r) in bboxes if ((r[2] < r[3]) or large_area(a)) and is_rectangle(a, r)]
         if bboxes:
             area, bbox = max(bboxes)
             if area > bbox_area_threshold:
