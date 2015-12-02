@@ -42,10 +42,10 @@ class Eyes:
         for i, detector in enumerate(self.detectors):
             bbox = detector.bounding_box(hsv_frame)
 
+            self.locations[i] = bbox
             self.mask_pubs[i].publish(convert.cv2_to_imgmsg(detector.mask, 'mono8'))
             if bbox:
                 (x, y, w, h) = bbox
-                self.locations[i] = bbox
                 cv2.rectangle(frame, (x, y), (x+w, y+h), color=(0, 255, 0))
         img_msg = convert.cv2_to_imgmsg(frame, "bgr8")
         self.bounding_box.publish(img_msg)
@@ -65,8 +65,12 @@ class Eyes:
             if request.which != 0 and request.which != 1:
                 raise ValueError('Invalid color detector {0}.\nCan only get location from 0 or 1.'.format(request.which))
 
-            (x, y, w, h) = self.locations[request.which]
-            return x, y, w, h, ''
+            loc = self.locations[request.which]
+            if loc:
+                (x, y, w, h) = loc
+                return x, y, w, h, ''
+            else:
+                return -1, -1, -1, -1, 'Not found'
 
         except Exception as e:
             return -1, -1, -1, -1, str(e)
