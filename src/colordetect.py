@@ -7,7 +7,7 @@ import cv2
 kernel = np.ones((7, 7), np.uint8)
 
 # TODO: Set the threshold for min area?
-bbox_area_threshold = 200
+bbox_area_threshold = 500
 
 
 def morph(frame, kernel):
