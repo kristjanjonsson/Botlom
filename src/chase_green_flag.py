@@ -33,7 +33,7 @@ class ControllerTest:
         self.is_centered = False
         self.is_close = False
         self.tried_recovery = False
-        self.total_flags = 6
+        self.total_flags = 4
         self.completed_flags = 0
 
         rate = rospy.Rate(10)
@@ -64,14 +64,17 @@ class ControllerTest:
             # Turn around flag
             if self.is_close:
                 self.turn_around_flag()
-                self.find_next_flag()
 
-            # Sweet success:
-            if self.completed_flags == self.total_flags:
+                if self.completed_flags == self.total_flags:
                 self.controller.play_song()
                 while True:
                     self.controller.turn_left(0.25, 200)
+                
+                self.find_next_flag()
 
+            # Sweet success:
+
+            
             rate.sleep()
 
     # Center on flag if needed.
