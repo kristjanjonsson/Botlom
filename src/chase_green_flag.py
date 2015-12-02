@@ -49,6 +49,9 @@ class ControllerTest:
                     self.try_recovery()
                     rate.sleep()
                     continue
+                else:
+                    print "Still couldn't find the flag. I will stop now."
+                    break
             # If i got here, I may try recovery again soon.
             self.tried_recovery = False
 
@@ -115,10 +118,10 @@ class ControllerTest:
         print "Time to turn around the flag!"
         if self.target_color == 1:
             # we go to the right of greens
-            self.controller.circle_left(4, 200)
+            self.controller.circle_left(6, 200)
         else:
             # we go to the left of reds.
-            self.controller.circle_right(4, 200)
+            self.controller.circle_right(6, 200)
 
         # another flag down
         self.completed_flags += 1
@@ -148,31 +151,31 @@ class ControllerTest:
 
     def try_recovery(self):
         print "I will now try to recover"
-        self.controller.move_backwards(0.1, 0.25)
+        self.controller.move_backwards(0.1, 25)
         if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
-        self.controller.turn_left(0.2, 0.25)
+        self.controller.turn_left(0.2, 25)
         if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
-        self.controller.move_backwards(0.1, 0.25)
+        self.controller.move_backwards(0.1, 25)
         if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
-        self.controller.turn_right(0.2, 0.25)
+        self.controller.turn_right(0.2, 25)
         if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
-        self.controller.move_backwards(0.1, 0.25)
+        self.controller.move_backwards(0.1, 25)
         if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
-        self.controller.turn_right(0.2, 0.25)
+        self.controller.turn_right(0.2, 25)
         if self.flag_position.x != -1 and self.flag_position.y != -1:
             return
 
-        print "Still couldn't find the flag. I will stop now."
+        # will stop trying
         self.tried_recovery = True
 
 
