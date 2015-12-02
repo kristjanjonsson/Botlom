@@ -43,6 +43,12 @@ class Controller:
             print response.error
 
     def circle_right(self, press_time = 0.25, speed = 400):
+
+        # must turn before circling
+        self.command_handle("LEFT", "2", 400)
+        time.sleep("5")
+        self.command_handle("LEFT", "3", 400)
+
         self.command_handle("RIGHT", "2", speed)
         self.command_handle("UP", "2", speed)
         time.sleep(press_time)
@@ -50,6 +56,12 @@ class Controller:
         self.command_handle("UP", "3", speed)
 
     def circle_left(self, press_time = 0.25, speed = 400):
+
+        # must turn before circling
+        self.command_handle("RIGHT", "2", 400)
+        time.sleep("5")
+        self.command_handle("RIGHT", "3", 400)
+
         self.command_handle("LEFT", "2", speed)
         self.command_handle("UP", "2", speed)
         time.sleep(press_time)
