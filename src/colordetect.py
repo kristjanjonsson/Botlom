@@ -47,7 +47,7 @@ class ColorDetector:
         mask = cv2.inRange(frame, self.hsv_values[:, 0], self.hsv_values[:, 1])
         if self.hsv_values2 is not None:
             mask2 = cv2.inRange(frame, self.hsv_values2[:, 0], self.hsv_values2[:, 1])
-            cv2.bitwise_and(mask, mask2, dst=mask)
+            cv2.bitwise_or(mask, mask2, dst=mask)
         return mask
 
     def bounding_box(self, frame):
