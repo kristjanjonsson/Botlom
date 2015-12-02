@@ -39,7 +39,7 @@ class ControllerTest:
             self.center_on_flag()
 
             # Move to flag
-            # approach_flag
+            self.approach_flag()
 
             # Make turn
             # TODO: This
