@@ -20,9 +20,10 @@ def max_bounding_box(binary_img):
     if contours:
         bboxes = [(cv2.contourArea(c), cv2.boundingRect(c)) for c in contours]
         bboxes = [(a, r) for (a, r) in bboxes if r[2] < r[3]]
-        area, bbox = max(bboxes)
-        if area > bbox_area_threshold:
-            return bbox
+        if bboxes:
+            area, bbox = max(bboxes)
+            if area > bbox_area_threshold:
+                return bbox
 
 
 class ColorDetector:
