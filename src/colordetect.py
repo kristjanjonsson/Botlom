@@ -11,8 +11,9 @@ bbox_area_threshold = 200
 
 
 def morph(frame, kernel):
-    cv2.morphologyEx(frame, cv2.MORPH_OPEN, kernel, dst=frame)
-    cv2.morphologyEx(frame, cv2.MORPH_CLOSE, kernel, dst=frame)
+    morphed = cv2.morphologyEx(frame, cv2.MORPH_OPEN, kernel)
+    cv2.morphologyEx(frame, cv2.MORPH_CLOSE, kernel, dst=morphed)
+    return morphed
 
 
 def max_bounding_box(binary_img):
@@ -52,10 +53,9 @@ class ColorDetector:
     def bounding_box(self, frame):
         '''Returns (x, y, width, height) for the largest bounding box of a region
         of the given color.'''
-        mask = self.threshold(frame)
-        morph(mask, kernel)
-        self.mask = mask  # Cache the mask for debuggin.
-        return max_bounding_box(mask)
+        self.mask = self.threshold(frame)
+        morphed = morph(self.mask, kernel)
+        return max_bounding_box(morphed)
 
 
 def main(video_fname=None):
