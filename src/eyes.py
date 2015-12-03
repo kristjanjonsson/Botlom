@@ -20,6 +20,7 @@ class Eyes:
 
     def __init__(self, node_name):
         self.detectors = [ColorDetector(*green), ColorDetector(*pink)]
+        self.bbox_color = [(0, 255, 0), (42, 0, 255)]
         self.locations = [None, None]  # detected locations.
 
         rospy.init_node(node_name)
@@ -50,7 +51,7 @@ class Eyes:
             self.mask_pubs[i].publish(convert.cv2_to_imgmsg(detector.mask, 'mono8'))
             if bbox:
                 (x, y, w, h) = bbox
-                cv2.rectangle(frame, (x, y), (x+w, y+h), color=(0, 255, 0))
+                cv2.rectangle(frame, (x, y), (x+w, y+h), color=self.bbox_color[i])
         img_msg = convert.cv2_to_imgmsg(frame, "bgr8")
         self.bounding_box.publish(img_msg)
 
