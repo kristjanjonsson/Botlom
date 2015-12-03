@@ -10,7 +10,7 @@ from colordetect import ColorDetector
 
 
 pink = ((165,175), (15,245), (15,245))
-green = ((70,82), (30,200), (50,150))
+green = ((70,82), (15,245), (15,245))
 
 convert = CvBridge()
 
