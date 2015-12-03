@@ -9,8 +9,8 @@ import cv2
 from colordetect import ColorDetector
 
 
-pink = ((164, 183), (15, 245), (15, 245))
-green = ((64, 79), (15, 230), (30, 230))
+pink = ((165,175), (15,245), (15,245))
+green = ((70,82), (30,200), (50,150))
 
 convert = CvBridge()
 
