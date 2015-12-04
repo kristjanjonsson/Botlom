@@ -1,7 +1,6 @@
 <launch>
-  <node pkg="Botlom" name="create_driver" type="driver.py" />
-
   <node pkg="usb_cam" name="usb_cam" type="usb_cam_node" />
-
   <node pkg="Botlom" name = "eyes" type="eyes.py" />
+  <node pkg="Botlom" name="create_driver" type="driver.py" />
+  <node pkg="Botlom" name = "chase_flag" type="chase_green_flag.py" />
 </launch>
